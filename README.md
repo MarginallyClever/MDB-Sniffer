@@ -20,6 +20,7 @@ This code is meant to be Arduino firmware.  It assumes that the vending machine 
 * Arduino #1 runs "near_MDB" firmware.  A1 connects to the physical circuit through the hardware serial.  This means the hardware serial is not avilable to output data to a PC.
 * Arduino #2 runs "near_PC" firmware.  A2 connects to your PC through a USB cable.  A2 pin 10 connects to A1 pin 11.  A2 pin 11 connects to A1 pin 10.
 
+Don't forget the common ground between A1 and A2.
 
 Who Where When
 --------------
