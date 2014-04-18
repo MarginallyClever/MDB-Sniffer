@@ -11,10 +11,10 @@
 // CONSTANTS
 //------------------------------------------------------------------------------
 
-#define MAX_MSG_LEN (36)  // section 2.2 of MDB format
+#define MAX_MSG_LEN (36)  // section 2.2
 
-#define ADDRESS_MASK      (0xF8)  // top five bits of address are actually address
-#define COMMAND_MASK      (0x07)  // bottom three bits are command
+#define ADDRESS_MASK      (0xF8)  // section 2.3 - top five bits of address are actually address
+#define COMMAND_MASK      (0x07)  // section 2.3 - bottom three bits are command
 
 
 // Address of each device (section 2.2)
@@ -34,6 +34,12 @@
 #define ADDRESS_AVD       (0x68)  // Age Verification Device
 #define ADDRESS_COIN2     (0x70)  // Coin Hopper 2
 // higher addresses are for future expansion
+
+
+// section 2.2
+#define MSG_ACK  (0x00)  // ack
+#define MSG_RET  (0xAA)  // please retransmit last byte
+#define MSG_NAK  (0xFF)  // negative ack
 
 
 
