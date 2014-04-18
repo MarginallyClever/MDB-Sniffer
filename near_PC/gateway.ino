@@ -4,6 +4,13 @@
 // Copyright at end of file.
 //------------------------------------------------------------------------------
 
+#define CMD_GATEWAY_RESET   (0x18 & COMMAND_MASK)
+#define CMD_GATEWAY_SETUP   (0x19 & COMMAND_MASK)
+#define CMD_GATEWAY_POLL    (0x1A & COMMAND_MASK)
+#define CMD_GATEWAY_REPORT  (0x1B & COMMAND_MASK)
+#define CMD_GATEWAY_CONTROL (0x1C & COMMAND_MASK)
+#define CMD_GATEWAY_EXTRA   (0x1F & COMMAND_MASK)
+
 
 //------------------------------------------------------------------------------
 // METHODS
@@ -13,19 +20,19 @@
 void GATEWAY_parse() {
   Serial.print(F("Communication Gateway "));
 
-  switch(msg_address) {
-  case 0x18:  Serial.print(F("Self-reset"));  break;
-  case 0x19:  Serial.print(F("Setup"));  break;
-  case 0x1A:  Serial.print(F("Poll"));  break;
-  case 0x1B:  Serial.print(F("Report"));  break;
-  case 0x1C:  Serial.print(F("Control"));  
+  switch(msg_address & COMMAND_MASK) {
+  case CMD_GATEWAY_RESET:  Serial.print(F("Self-reset"));  break;
+  case CMD_GATEWAY_SETUP:  Serial.print(F("Setup"));  break;
+  case CMD_GATEWAY_POLL:  Serial.print(F("Poll"));  break;
+  case CMD_GATEWAY_REPORT:  Serial.print(F("Report"));  break;
+  case CMD_GATEWAY_CONTROL:  Serial.print(F("Control"));  
     switch(msg_data[0]) {
     case 0x00:  Serial.print(F(" Disable"));  break;
     case 0x01:  Serial.print(F(" Enable"));  break;
     case 0x02:  Serial.print(F(" Transmit"));  break;
     }
     break;
-  case 0x1A:  Serial.print(F("Extra")); 
+  case CMD_GATEWAY_EXTRA:  Serial.print(F("Extra")); 
     switch(msg_data[0]) {
     case 0x00:  Serial.print(F(" Ident"));  break;
     case 0x01:  Serial.print(F(" Feature enable(d)"));  break;

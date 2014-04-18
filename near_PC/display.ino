@@ -5,6 +5,8 @@
 //------------------------------------------------------------------------------
 
     
+#define CMD_DISPLAY_RESET (0x00)
+
 
 //------------------------------------------------------------------------------
 // METHODS
@@ -13,7 +15,8 @@
 void DISPLAY_parse() {
   Serial.print(F("Display "));
 
-  switch(msg_address) {
+  switch(msg_address & COMMAND_MASK) {
+  case CMD_DISPLAY_RESET: Serial.print(F("Self-reset"));  break;
   default:
     Serial.print(F("CMD #"));
     Serial.print((int)(msg_address & COMMAND_MASK));

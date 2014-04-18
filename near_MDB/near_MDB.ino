@@ -162,16 +162,6 @@ struct MDB_Byte sendData[MDB_BUFFER_SIZE];
 //----------------------------------------------------------------
 
 
-
-void RPI_setup() {
-  RPI.begin(57600);
-  //RPI.print("Hello from near MDB!\n");
-  delay(100);
-  RPI.print("Hello, World!");
-  RPI_buffer_count=0;
-}
-
-
 void setup() {
   RPI_setup();
   MDB_setup();
@@ -181,6 +171,16 @@ void setup() {
 void loop() {
   RPI_read();
   MDB_read();
+}
+
+
+
+void RPI_setup() {
+  RPI.begin(57600);
+  //RPI.print("Hello from near MDB!\n");
+  delay(100);
+  RPI.print("Hello, World!");
+  RPI_buffer_count=0;
 }
 
 
@@ -225,6 +225,17 @@ void MDB_setup() {
 }
 
 
+void MDB_read() {
+  // is data availble?
+  if((UCSR0A & (1<<RXC0))) {
+    // read it
+    MDB_getByte(&recvData[0]);
+    //RPI.print(recvData[0]);
+    MDB_parse();
+  }
+}
+
+
 void MDB_getByte(struct MDB_Byte* mdbb) {
   int b;
   char tmpstr[7];
@@ -233,12 +244,11 @@ void MDB_getByte(struct MDB_Byte* mdbb) {
   b = USART_Receive();
   memcpy (mdbb, &b, 2);
   
-  if (mdbb->mode)
-    sprintf(tmpstr, "<%.2x*", mdbb->data);
-  else
-    sprintf(tmpstr, "<%.2x", mdbb->data);
-     
-//  if (gDebug > 1) dbg_print(tmpstr);
+  /*if (gDebug > 1) {
+    if (b.mode) sprintf(tmpstr, ">%.2x*", b.data);
+    else        sprintf(tmpstr, ">%.2x", b.data);
+    dbg_print(tmpstr);
+  }*/
 }
 
 
@@ -261,50 +271,11 @@ int USART_Receive() {
     return -1;
   }
 
-  /* Filter the 9th bit, then return */
+  // Filter the 9th bit, then return
   resh = (resh >> 1) & 0x01;
   return ((resh << 8) | resl);
 }
 
-
-void MDB_write(int data) {
-  char tmpstr[7];
-  struct MDB_Byte b;
-  
-  memcpy(&b, &data, 2);
-  
-  serial_write(b);
-  
-  //if (debug) {
-    //if (b.mode) sprintf(tmpstr, ">%.2x*", b.data);
-    //else        sprintf(tmpstr, ">%.2x", b.data);
-    //if (gDebug > 1) dbg_print(tmpstr);
-  //}
-}
-
-
-void serial_write(struct MDB_Byte mdbb) {
-  while ( !( UCSR0A & (1<<UDRE0)));
-  
-  UCSR0B &= ~(1<<TXB80);
-  
-  if (mdbb.mode) {
-    UCSR0B |= (1<<TXB80);
-  }
-  
-  UDR0 = mdbb.data;
-}
-
-
-void MDB_read() {
-  // is data availble?
-  if((UCSR0A & (1<<RXC0))) {
-    // read it
-    MDB_getByte(&recvData[0]);
-    //RPI.print(recvData[0]);
-    MDB_parse();
-  }
-}
 
 void MDB_parse() {
   // send it to the intermediary
@@ -335,13 +306,13 @@ byte MDB_checksumGenerate(struct MDB_Byte* data, byte length) {
 }
 
 
+
+
 byte MDB_transmitData(struct MDB_Byte* data, byte length) {
   int transmitState;
   struct MDB_Byte mdbb;
   int tx;
   char tmpstr[7];
-  
-  //if (debug) dbg_println("(");
   
   do
   {
@@ -371,6 +342,37 @@ byte MDB_transmitData(struct MDB_Byte* data, byte length) {
   //if (debug) dbg_println(")");
   
   return transmitState;
+}
+
+
+void MDB_write(int data) {
+  char tmpstr[7];
+  struct MDB_Byte b;
+  
+  memcpy(&b, &data, 2);
+  
+  serial_write(b);
+  
+  /*if (gDebug > 1) {
+    if (b.mode) sprintf(tmpstr, ">%.2x*", b.data);
+    else        sprintf(tmpstr, ">%.2x", b.data);
+    dbg_print(tmpstr);
+  }*/
+}
+
+
+void serial_write(struct MDB_Byte mdbb) {
+  while ( !( UCSR0A & (1<<UDRE0)));
+  
+  if (mdbb.mode) {
+    // turn on bit 9
+    UCSR0B |= (1<<TXB80);
+  } else {
+    // turn off bit 9
+    UCSR0B &= ~(1<<TXB80);
+  }
+  
+  UDR0 = mdbb.data;
 }
 
 

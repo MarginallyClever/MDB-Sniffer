@@ -105,14 +105,6 @@ void parse_message() {
 }
 
 
-    switch(msg_data[0]) {
-    case 0x00:  Serial.print(F(""));  break;
-    case 0x00:  Serial.print(F(""));  break;
-    case 0x00:  Serial.print(F(""));  break;
-    case 0x00:  Serial.print(F(""));  break;
-    }
-
-
 /**
  * Displays byte in binary.  Useful for debugging comms at the start.
  */
