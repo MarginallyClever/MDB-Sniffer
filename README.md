@@ -25,7 +25,7 @@ Don't forget the common ground between A1 and A2.
 Who Where When
 --------------
 
-Created by Dan Royer (dan@marginallyclever.com) for the vending machine at the [Vancouver Hackspace](http://vancouver.hackspace.ca) April 16, 2014.
+Created by Dan Royer (dan@marginallyclever.com) for the vending machine at the [Vancouver Hackspace](http://vanhack.ca) April 16, 2014.
 
 "If I have seen further it is by standing on the shoulders of giants."  -- Isaac Newton
 
@@ -34,4 +34,4 @@ Based on [previous work](https://github.com/NottingHack/Vend) from [Nottingham H
 More
 ----
 * [Nottingham Hackspace Wiki page on their vending machine](http://wiki.nottinghack.org.uk/wiki/Vending_Machine)
-* [Vancouver Hackspace Wiki page on their vending machine](https://vancouver.hackspace.ca/doku.php?id=tool:vending_machine)
+* [Vancouver Hackspace Wiki page on their vending machine](https://vanhack.ca/doku.php?id=tool:vending_machine)
