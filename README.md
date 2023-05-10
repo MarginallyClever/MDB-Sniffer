@@ -1,6 +1,10 @@
 MDB Parser
 ==========
 
+Update
+---
+You are welcome to contact me about this project but I won't be moving forward on it.  I was ripped off by the company that promised to sell my vending machine on consignment; I no longer have access to the hardware.  I have moved on to bigger and better things.  Getting me a machine and some testing hardware will not be enough - no two VM makers follow the MDB protocol the same way, the edge cases are painful.  Good luck with your project!
+
 What 
 ----
 
